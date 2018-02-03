@@ -23,4 +23,4 @@ They work something like this !g blacklist user add Simon and Simon would not be
 
 !g message Custom message to set a custom message instead of the default one
 
-to do all steaps at once use this command !g doall :heart: 10 "item to win" general
+to do all steaps at once, except changing the message, use this command !g doall :heart: 10 "item to win" general
