@@ -4,7 +4,7 @@ A simple, flawed, bot for hosting giveaways that I had coded for me. I'm too che
 Okay here is the bot. It runs on Python 3.6 and needs the Discord.py module.
 First it has a .ini file there you need to put your bot-token, the role that are allowed to create and manage giveaways (modrole), user-idnumbers to people allowed to dm the bot, and user-idnumbers to people that are allowed to use the undocumented rigging feature.
 
-You can get the basic steps for creating a giveaway by typing !giveaway or !g, further commands can be seen by typing !help
+You can get the basic steps for creating a giveaway by typing !help giveaway or !help g, further commands can be seen by typing !help
 
 Example steps:
 !g time 10
