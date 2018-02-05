@@ -28,8 +28,9 @@ async def send_cmd_help(ctx):
         for page in pages:
             await bot.send_message(ctx.message.channel, page)
 	
-async def createEmbed(message,emoji,endDate):
-	embed = discord.Embed(color=0x0040ff,title='Giveaway')
+async def createEmbed(message,emoji,endDate,title):
+	actualTitle = 'Giveaway: ' + str(title)
+	embed = discord.Embed(color=0x0040ff,title=actualTitle)
 	info = "React with "+emoji + " on this message to enter"
 	
 	embed.add_field(name='Message from creator', value=message, inline=False)
@@ -38,8 +39,9 @@ async def createEmbed(message,emoji,endDate):
 	
 	return embed
 
-async def updateEmbed(message,endDate,winner,result):
-	embed = discord.Embed(color=0x0040ff,title='Giveaway has ended')
+async def updateEmbed(message,endDate,winner,result,title):
+	actualTitle = 'Giveaway of ' + str(title) + ' has ended'
+	embed = discord.Embed(color=0x0040ff,title=actualTitle)
 	
 	embed.add_field(name='Message from creator', value=message, inline=False)
 	embed.add_field(name='Ended on', value=endDate, inline=False)
@@ -350,7 +352,7 @@ async def start(ctx):
 		if 'blacklistGroups' in cmdsettings[ctx.message.author.id]:
 			blacklistGroups = cmdsettings[ctx.message.author.id]['blacklistGroups']
 		
-		embed = await createEmbed(infomessage,cmdsettings[ctx.message.author.id]['emoji'],endDate)
+		embed = await createEmbed(infomessage,cmdsettings[ctx.message.author.id]['emoji'],endDate,cmdsettings[ctx.message.author.id]['prize'])
 		channel = discord.utils.get(server.channels, id=cmdsettings[ctx.message.author.id]['channel'])
 		theMessage = await bot.send_message(channel, None, embed=embed)
 		
@@ -507,16 +509,16 @@ async def reactionChecker(messageID,channelID,serverid,sleepTime):
 		result = ["NO_WINNER",""]
 	
 	if result[0] == "OK":
-		newEmbed = await updateEmbed(ongoingGiveaways[messageID]['message'],ongoingGiveaways[messageID]['endDate'],result[1],"Ended")
+		newEmbed = await updateEmbed(ongoingGiveaways[messageID]['message'],ongoingGiveaways[messageID]['endDate'],result[1],"Ended",prize)
 		await bot.edit_message(message, embed=newEmbed)
 	if result[0] == "NO_WINNER":
-		newEmbed = await updateEmbed(ongoingGiveaways[messageID]['message'],ongoingGiveaways[messageID]['endDate'],"Nobody","Ended without a winner")
+		newEmbed = await updateEmbed(ongoingGiveaways[messageID]['message'],ongoingGiveaways[messageID]['endDate'],"Nobody","Ended without a winner",prize)
 		await bot.edit_message(message, embed=newEmbed)
 	if result[0] == "RIG_ERROR":
-		newEmbed = await updateEmbed(ongoingGiveaways[messageID]['message'],ongoingGiveaways[messageID]['endDate'],"Nobody","Ended with error")
+		newEmbed = await updateEmbed(ongoingGiveaways[messageID]['message'],ongoingGiveaways[messageID]['endDate'],"Nobody","Ended with error",prize)
 		await bot.edit_message(message, embed=newEmbed)
 	if result[0] == "DM_ERROR":
-		newEmbed = await updateEmbed(ongoingGiveaways[messageID]['message'],ongoingGiveaways[messageID]['endDate'],"Nobody","Ended with error")
+		newEmbed = await updateEmbed(ongoingGiveaways[messageID]['message'],ongoingGiveaways[messageID]['endDate'],"Nobody","Ended with error",prize)
 		await bot.edit_message(message, embed=newEmbed)
 	
 	del ongoingGiveaways[messageID]
